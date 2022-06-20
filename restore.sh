@@ -40,43 +40,24 @@ if ! [[ -x "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/a1101066/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  
+
   if ! [[ -x "$(command -v brew)" ]]; then
     echo "brew가 정상 설치되지 않았습니다. 필수 소프트웨어이므로 설치 후 재시도 해주세요."
     exit;
   fi
 fi
 
-
 # [Apple Silicon M1] rosetta 2 설치 (x86 기반의 프로그램을 m1-arm64 환경에서 구동해주는 해석기)
 if [[ "arm64" == $(arch) ]]; then
   /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 fi
 
-# 주요파일 Symbolic link로 강제 update
-for name in gitignore gitalias zshrc; do
-  ln -nfs $DOTFILES/.$name ~
-done
-
-#------------------------------------------------------------------------------
-# Brewfile 복구: Install executables and libraries
-#   - Brewfile 백업 -> brew bundle dump -f
-#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
-#------------------------------------------------------------------------------
-brew bundle --file=${DOTFILES}/Brewfile
-
-### Private ###
-#------------------------------------------------------------------------------
-# Restore hammerspoon Config files
-#------------------------------------------------------------------------------
-# git clone git@github.com:ic4r/.hammerspoon.git ~/.hammerspoon
-# 변경 => 설정코드는 dotfiles 폴더로 옮기고 symlink 걸어주도록 변경
-ln -nfs $DOTFILES/.hammerspoon ~
-
 
 #------------------------------------------------------------------------------
 # Git & github 설정
 #------------------------------------------------------------------------------
+brew install git git-crypt git-lfs
+
 cat << EOF > ~/.gitconfig
 [user]
     signingkey = $GPG_KEY
@@ -96,9 +77,6 @@ mkdir -p ~/.gnupg && echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/
 
 git config --global user.name "$NAME"
 git config --global user.email "$EMAIL"
-
-# git-lfs
-git lfs install
 
 # git 한글파일명 처리
 git config --global core.precomposeunicode true
@@ -127,6 +105,8 @@ jenv versions
 # iterm2 & shell 환경설정
 #------------------------------------------------------------------------------
 function install_iterm2() {
+  brew install "iterm2" --cask
+
   # Install - iterm2 shell integration and util
   curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh | bash
 
@@ -148,7 +128,7 @@ function install_iterm2() {
 
 }
 # 최초설치시에만 실행
-if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
   install_iterm2
 fi
 
@@ -196,6 +176,29 @@ if [[ ! -e ~/.viminfo ]]; then
   # install_vimrc
   install_neovim
 fi
+
+# 주요파일 Symbolic link로 강제 update
+for name in gitignore gitalias zshrc; do
+  ln -nfs $DOTFILES/.$name ~
+done
+
+#------------------------------------------------------------------------------
+# Brewfile 복구: Install executables and libraries
+#   - Brewfile 백업 -> brew bundle dump -f
+#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
+#------------------------------------------------------------------------------
+brew bundle --file=${DOTFILES}/Brewfile
+
+
+### Private ###
+#------------------------------------------------------------------------------
+# Restore hammerspoon Config files
+#------------------------------------------------------------------------------
+# git clone git@github.com:ic4r/.hammerspoon.git ~/.hammerspoon
+# 변경 => 설정코드는 dotfiles 폴더로 옮기고 symlink 걸어주도록 변경
+brew install "hammerspoon" --cask
+ln -nfs $DOTFILES/.hammerspoon ~
+
 
 ### Private ###
 #------------------------------------------------------------------------------
