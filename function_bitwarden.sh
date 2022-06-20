@@ -76,7 +76,7 @@ function bw_item() {
 ###################### END 공통기능 ##################################
 
 # 아이템 생성 - 폴더 백업 
-function bw_create_securenote() {
+function bw_create_securefolder() {
 # bw get template item 
 # {
 #   "organizationId": null,
@@ -193,10 +193,10 @@ function push_folder() {
     
     if [ -z "$ITEM_ID" ]; then 
         echo "Create New KEY: bw_create_securenote $FOLDER $DESC $FID "
-        bw_create_securenote $FOLDER $DESC $FID
+        bw_create_securefolder $FOLDER $DESC $FID
     else
         echo "Update Exist KEY : bw_create_securenote $FOLDER $DESC $FID $ITEM_ID"
-        bw_create_securenote $FOLDER $DESC $FID $ITEM_ID
+        bw_create_securefolder $FOLDER $DESC $FID $ITEM_ID
     fi
 
 }
@@ -256,6 +256,33 @@ function bw_create_securenote_one_file() {
     echo $TEMPLATE | jq ".folderId=\"$3\" | .type=2 | .secureNote.type=0 | .name=\"$(basename $1)\" | .notes=\"$2\"" \
     | jq ".fields=[{\"name\":\"$1\",\"value\":\"$ITEM\",\"type\":0}]" \
     | bw encode | bw create item > $1.bwitem
+
+    cat $1.bwitem | jq
+    echo RESULT FILE: $1.bwitem
+}
+
+# 단일 아이템 수정
+function bw_edit_securenote_one_file() {
+
+    if [[ -z $1 ]]; then
+        echo "usage: bw_edit_securenote_one_file {filename} {itemId} {note} {option:folderId} "
+        echo "-> sample: bw_edit_securenote_one_file test.sh 1234-5678 \"key=>파일명, value=>gpg로 암호화 후, base64 인코딩된 문자열\""
+        return 1
+    fi
+
+    # 파일 사이즈가 5000 이상이면 패스
+    if [[ $(wc -c $1 | awk '{print $1}') -gt 5000 ]]; then 
+        echo "$1 $(wc -c $1) - size is too big! passed. "
+        return 1
+    fi
+
+
+    ITEM=$(cat $1 | gpg -r $GPG_KEY -e | base64 -i -)
+
+    TEMPLATE='{"organizationId":null,"collectionIds":null,"folderId":null,"type":1,"name":"Item name","notes":"Some notes about this item.","favorite":false,"fields":[],"login":null,"secureNote":null,"card":null,"identity":null,"reprompt":0}'
+    echo $TEMPLATE | jq ".folderId=\"$4\" | .type=2 | .secureNote.type=0 | .name=\"$(basename $1)\" | .notes=\"$3\"" \
+    | jq ".fields=[{\"name\":\"$1\",\"value\":\"$ITEM\",\"type\":0}]" \
+    | bw encode | bw edit item $2 > $1.bwitem
 
     cat $1.bwitem | jq
     echo RESULT FILE: $1.bwitem
