@@ -38,7 +38,8 @@ brew bundle dump -f
 
 
 # iterm2 config file
-cp ~/Library/Preferences/com.googlecode.iterm2.plist $DOTFILES
+echo "com.googlecode.iterm2.plist PASSED!"
+#cp ~/Library/Preferences/com.googlecode.iterm2.plist $DOTFILES
 
 
 # dotfiles push
