@@ -193,6 +193,18 @@ fi
 # gpg & ssh 환경복구
 # gpg 키는 bitwarden에 암호화되어 보관 (bitwarden -> base64 -> gpg 복구 -> ssh key 복구) 
 #------------------------------------------------------------------------------
+function bw_install() {
+    if brew ls --versions bitwarden-cli > /dev/null; then
+        echo "# The <bitwarden-cli> package is installed"
+        bw update
+    else
+        # The package is not installed
+        brew install bitwarden-cli
+    fi
+}
+
+bw_install
+
 # bitwarden에 저장된 gpg key를 추출한다.
 sh import_gpg_ssh.sh
 
