@@ -38,7 +38,7 @@ xcode-select --install
 # Homebrew 설치가 안되어 있으면 설치
 if ! [[ -x "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/a1101066/.zprofile
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   if ! [[ -x "$(command -v brew)" ]]; then

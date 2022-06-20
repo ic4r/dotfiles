@@ -1,0 +1,68 @@
+tap "deviceinsight/packages"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+
+brew "python@3.9"
+
+brew "coreutils"
+
+brew "exa"
+brew "fd"
+
+brew "git"
+brew "git-crypt"
+brew "git-lfs"
+brew "gnu-sed"
+
+brew "hexyl"
+brew "htop"
+
+brew "iproute2mac"
+brew "jenv"
+brew "jq"
+
+brew "mas"
+
+brew "neovim"
+
+brew "openssl@3"
+
+brew "procs"
+brew "pyenv"
+brew "rbenv"
+
+
+brew "tcpdump"
+brew "telnet"
+brew "tig"
+brew "tree"
+brew "watch"
+brew "wget"
+
+brew "zsh"
+brew "zsh-completions"
+
+cask "appcleaner"
+cask "charles"
+
+
+cask "iterm2"
+
+
+cask "slack"
+cask "sourcetree"
+
+cask "visual-studio-code"
+
+cask "zulu17"
+
+mas "iShot", id: 1485844094
+
+mas "ScreenBrush", id: 1233965871
+
+mas "The Unarchiver", id: 425424353
+

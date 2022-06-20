@@ -26,9 +26,9 @@ xcode-select --install
 # Homebrew 설치가 안되어 있으면 설치
 if ! [[ -x "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/a1101066/.zprofile
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  
+
   if ! [[ -x "$(command -v brew)" ]]; then
     echo "brew가 정상 설치되지 않았습니다. 필수 소프트웨어이므로 설치 후 재시도 해주세요."
     exit;
@@ -40,21 +40,11 @@ if [[ "arm64" == $(arch) ]]; then
   /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 fi
 
-# 주요파일 Symbolic link로 강제 update
-for name in gitignore gitalias zshrc; do
-  ln -nfs $DOTFILES/.$name ~
-done
 
 #------------------------------------------------------------------------------
-# Brewfile 복구: Install executables and libraries
-#   - Brewfile 백업 -> brew bundle dump -f
-#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
+# Git & github 설정
 #------------------------------------------------------------------------------
-brew bundle --file=${DOTFILES}/Brewfile
-
-# git-lfs
-git lfs install
-
+brew install git git-crypt git-lfs
 # git 한글파일명 처리
 git config --global core.precomposeunicode true
 git config --global core.quotepath false
@@ -82,6 +72,8 @@ jenv versions
 # iterm2 & shell 환경설정
 #------------------------------------------------------------------------------
 function install_iterm2() {
+  brew install "iterm2" --cask
+
   # Install - iterm2 shell integration and util
   curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh | bash
 
@@ -103,7 +95,7 @@ function install_iterm2() {
 
 }
 # 최초설치시에만 실행
-if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
   install_iterm2
 fi
 
@@ -143,7 +135,8 @@ function install_neovim() {
   mkdir -p ~/.SpaceVim.d/colors
   curl -sSL https://gist.githubusercontent.com/subicura/91696d2da58ad28b5e8b2877193015e1/raw/6fb5928c9bda2040b3c9561d1e928231dbcc9184/snazzy-custom.vim -o ~/.SpaceVim.d/colors/snazzy-custom.vim
 
-  cp .SpaceVim.d/init.toml ~/.SpaceVim.d/
+  #cp .SpaceVim.d/init.toml ~/.SpaceVim.d/
+  ln -nfs $DOTFILES/.SpaceVim.d ~
 }
 # 최초설치시에만 실행
 if [[ ! -e ~/.viminfo ]]; then
@@ -151,6 +144,17 @@ if [[ ! -e ~/.viminfo ]]; then
   install_neovim
 fi
 
+# 주요파일 Symbolic link로 강제 update
+for name in gitignore gitalias zshrc; do
+  ln -nfs $DOTFILES/.$name ~
+done
+
+#------------------------------------------------------------------------------
+# Brewfile 복구: Install executables and libraries
+#   - Brewfile 백업 -> brew bundle dump -f
+#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
+#------------------------------------------------------------------------------
+brew bundle --file=${DOTFILES}/Brewfile-init
 
 #------------------------------------------------------------------------------
 # Application
