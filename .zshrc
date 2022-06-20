@@ -114,7 +114,9 @@ source ~/dotfiles/.key.env.sh
 source ~/dotfiles/alias.sh
 source ~/dotfiles/function.sh
 source ~/dotfiles/function_gpg.sh
-
+function bit() {
+  source ~/dotfiles/function_bitwarden.sh
+}
 
 # jenv
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -133,7 +135,7 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # ssh PATH
-export PATH=~/.ssh:$PATH
+export PATH=~/.ssh:~/dotfiles:$PATH
 
 # java
 alias java_home=/usr/libexec/java_home
