@@ -52,7 +52,7 @@ fi
 # 
 # - base64인코딩 후 백업: base64 -i <filename> | pbcopy 
 #------------------------------------------------------------------------------
-
+# using gpg key in bitbucket: https://confluence.atlassian.com/bitbucketserver/using-gpg-keys-913477014.html
 
 #------------------------------------------------------------------------------
 # gpg key import
