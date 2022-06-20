@@ -62,7 +62,7 @@ cat << EOF > ~/.gitconfig
 [user]
     signingkey = $GPG_KEY
 [commit]
-    gpgsign = true
+    gpgsign = false
 [init]
     defaultBranch = main
 [color]
@@ -71,10 +71,7 @@ cat << EOF > ~/.gitconfig
     path = ~/.gitalias
 EOF
 
-# github
-brew install pinentry-mac  # github gpg key pw-input window
-mkdir -p ~/.gnupg && echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
-
+# git global
 git config --global user.name "$NAME"
 git config --global user.email "$EMAIL"
 
@@ -112,6 +109,9 @@ function install_iterm2() {
 
   # Restore iterm2 config file
   cp com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+}
+
+function install_ohmyzsh() {
 
   #oh-my-zsh 설치
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -128,8 +128,11 @@ function install_iterm2() {
 
 }
 # 최초설치시에만 실행
-if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
+if ! [[ -d ~/.iterm2 ]]; then
   install_iterm2
+fi
+if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
+  install_ohmyzsh
 fi
 
 #------------------------------------------------------------------------------
@@ -172,7 +175,7 @@ function install_neovim() {
   ln -nfs $DOTFILES/.SpaceVim.d ~
 }
 # 최초설치시에만 실행
-if [[ ! -e ~/.viminfo ]]; then
+if ! [[ -d ~/.SpaceVim.d ]]; then
   # install_vimrc
   install_neovim
 fi
@@ -188,16 +191,6 @@ done
 #   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
 #------------------------------------------------------------------------------
 brew bundle --file=${DOTFILES}/Brewfile
-
-
-### Private ###
-#------------------------------------------------------------------------------
-# Restore hammerspoon Config files
-#------------------------------------------------------------------------------
-# git clone git@github.com:ic4r/.hammerspoon.git ~/.hammerspoon
-# 변경 => 설정코드는 dotfiles 폴더로 옮기고 symlink 걸어주도록 변경
-brew install "hammerspoon" --cask
-ln -nfs $DOTFILES/.hammerspoon ~
 
 
 ### Private ###
@@ -222,6 +215,24 @@ sh import_gpg_ssh.sh
 
 if ! [ 0 == "$?" ]; then echo "gpg key import fail."; exit; fi
 
+# gnupg permission & for github
+brew install pinentry-mac  # github gpg key pw-input window
+mkdir -p ~/.gnupg 
+echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
+chmod 600 ~/.gnupg/*
+chmod 700 ~/.gnupg
+
+
+### Private ###
+#------------------------------------------------------------------------------
+# Restore hammerspoon Config files
+#------------------------------------------------------------------------------
+# git clone git@github.com:ic4r/.hammerspoon.git ~/.hammerspoon
+# 변경 => 설정코드는 dotfiles 폴더로 옮기고 symlink 걸어주도록 변경
+brew install "hammerspoon" --cask
+ln -nfs $DOTFILES/.hammerspoon ~
+
+
 
 #------------------------------------------------------------------------------
 # Application
@@ -243,26 +254,30 @@ echo -e "\n👏👏👏 macos configuration restore complete!!"
 # 작업완료를 알리는 고양이 - crontab 등록시 터미널경고가 발생하므로 사용자 액션을 넣어봄
 nyancat
 
-# crontab에 백업 스크립트 및 로그 제거 스크립트 등록 
-if ! [[ -n $(crontab -l | grep dotfiles/backup.sh) ]]; then
-  # 로그폴더 생성 - .gitignore에 등록됨
-  mkdir -p $DOTFILES/log
+function makecron() {
+  # crontab에 백업 스크립트 및 로그 제거 스크립트 등록 
+  if ! [[ -n $(crontab -l | grep dotfiles/backup.sh) ]]; then
+    # 로그폴더 생성 - .gitignore에 등록됨
+    mkdir -p $DOTFILES/log
 
-  # 매일 12시 정각 백업을 수행하고 로그를 남긴다.
-  CRONJOB="00 12 * * * yes | $DOTFILES/backup.sh > $DOTFILES/log/backup_\$(date +\%m\%d_\%H\%M).log 2>&1"
-  
-  # 매일 12시10분에 30일 경과 로그를 삭제한다.
-  LOGDJOB="10 12 * * * find $DOTFILES/log -maxdepth 1 -mtime +30 -type f -exec rm -f {} \;"
-  
-  # crontab 등록
-  (crontab -l && echo "$CRONJOB" && echo "$LOGDJOB") | crontab -
+    # 매일 12시 정각 백업을 수행하고 로그를 남긴다.
+    CRONJOB="00 12 * * * yes | $DOTFILES/backup.sh > $DOTFILES/log/backup_\$(date +\%m\%d_\%H\%M).log 2>&1"
+    
+    # 매일 12시10분에 30일 경과 로그를 삭제한다.
+    LOGDJOB="10 12 * * * find $DOTFILES/log -maxdepth 1 -mtime +30 -type f -exec rm -f {} \;"
+    
+    # crontab 등록
+    (crontab -l && echo "$CRONJOB" && echo "$LOGDJOB") | crontab -
 
-  echo "[Preference > 보안 및 개인 정보 보호 > 개인 정보 보호 > 전체 디스크 접근 권한]에서 iTerm, crontab 권한 부여 필요!"
-fi
+    echo "[Preference > 보안 및 개인 정보 보호 > 개인 정보 보호 > 전체 디스크 접근 권한]에서 iTerm, crontab 권한 부여 필요!"
+  fi
+}
+
 
 
 # 일기예보 CLI API (윈도우사이즈:125에 최적화) - pc 환경설정을 끝냈으면 날씨 확인하고 밖에 나가자.
 curl https://wttr.in/seoul -H "Accept-Language: ko-KR"
 
+# makecron
 echo -e "\n👻 crontab list:"
 crontab -l
