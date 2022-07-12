@@ -139,16 +139,11 @@ function install_neovim() {
     alias vimdiff="nvim -d" 
     export EDITOR=/usr/local/bin/nvim 
   '
-
   # spacevim 설치
   curl -sLf https://spacevim.org/install.sh | bash
 
-  # spacevim theme 설치
-  mkdir -p ~/.SpaceVim.d/colors
-  curl -sSL https://gist.githubusercontent.com/subicura/91696d2da58ad28b5e8b2877193015e1/raw/6fb5928c9bda2040b3c9561d1e928231dbcc9184/snazzy-custom.vim -o ~/.SpaceVim.d/colors/snazzy-custom.vim
-
   #cp .SpaceVim.d/init.toml ~/.SpaceVim.d/
-  ln -nfs $DOTFILES/.SpaceVim.d ~
+  cp -Rf $DOTFILES/.SpaceVim.d ~
 }
 # 최초설치시에만 실행
 # if [[ ! -e ~/.viminfo ]]; then
