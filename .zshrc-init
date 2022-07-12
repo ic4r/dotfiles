@@ -110,13 +110,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # import 
-source ~/dotfiles/.key.env.sh
 source ~/dotfiles/alias.sh
 source ~/dotfiles/function.sh
-source ~/dotfiles/function_gpg.sh
-function bit() {
-  source ~/dotfiles/function_bitwarden.sh
-}
 
 # jenv
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -133,8 +128,6 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# ssh PATH
-export PATH=~/.ssh:~/dotfiles:$PATH
 
 # java
 alias java_home=/usr/libexec/java_home
@@ -152,14 +145,6 @@ alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
 export EDITOR=/usr/local/bin/nvim
-
-# kubectl 
-[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
-alias k=kubectl
-complete -F __start_kubectl k
-
-# minikube
-source <(minikube completion zsh)
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

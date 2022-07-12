@@ -5,13 +5,14 @@ tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/services"
+tap "hudochenkov/sshpass"
 brew "asciinema"
-brew "python@3.9"
 brew "awscli"
 brew "bash"
 brew "bat"
 brew "node"
 brew "bitwarden-cli"
+brew "python@3.9"
 brew "glib"
 brew "colordiff"
 brew "coreutils"
@@ -55,6 +56,7 @@ brew "openssl@3"
 brew "pinentry-mac"
 brew "procs"
 brew "pyenv"
+brew "pyenv-virtualenv"
 brew "rbenv"
 brew "sbt"
 brew "speedtest-cli"
@@ -68,6 +70,7 @@ brew "yarn"
 brew "youtube-dl"
 brew "zsh"
 brew "zsh-completions"
+brew "hudochenkov/sshpass/sshpass"
 cask "appcleaner"
 cask "charles"
 cask "dbeaver-community"
@@ -88,16 +91,3 @@ cask "tableplus"
 cask "visual-studio-code"
 cask "wireshark"
 cask "zulu17"
-mas "Brother iPrint&Scan", id: 1193539993
-mas "GarageBand", id: 682658836
-mas "iMovie", id: 408981434
-mas "iShot", id: 1485844094
-mas "Keynote", id: 409183694
-mas "Memo", id: 1212409035
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-mas "ScreenBrush", id: 1233965871
-mas "Telegram Lite", id: 946399090
-mas "The Unarchiver", id: 425424353
-mas "카카오톡", id: 869223134
-mas "한컴오피스 한글 2014 VP 뷰어", id: 416746898

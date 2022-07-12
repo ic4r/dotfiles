@@ -15,10 +15,15 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 cd "$(dirname "${BASH_SOURCE}")"; # 스크립트가 실행되는 경로로 이동
 
-# dotfiles 업데이트
-if [ -d "$DOTFILES/.git" ]; then
-  git --work-tree="$DOTFILES" --git-dir="$DOTFILES/.git" pull origin main
-fi
+# 주요파일 Symbolic link로 강제 update
+for name in gitignore gitalias zshrc zprofile; do
+  echo "cp ~/.$name ~/.$name.bak"
+  echo "cp -f $DOTFILES/.$name ~"
+  cp ~/.$name ~/.$name.bak
+  cp -f $DOTFILES/.$name ~
+done
+
+cp -f $DOTFILES/.zshrc-init ~/.zshrc
 
 # Command Line Tool 설치 (기본명령어 설치 /Library/Developer/CommandLineTools/usr/bin)
 xcode-select --install
@@ -26,13 +31,14 @@ xcode-select --install
 # Homebrew 설치가 안되어 있으면 설치
 if ! [[ -x "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   if ! [[ -x "$(command -v brew)" ]]; then
     echo "brew가 정상 설치되지 않았습니다. 필수 소프트웨어이므로 설치 후 재시도 해주세요."
     exit;
   fi
+else 
+  brew info
 fi
 
 # [Apple Silicon M1] rosetta 2 설치 (x86 기반의 프로그램을 m1-arm64 환경에서 구동해주는 해석기)
@@ -49,6 +55,9 @@ brew install git git-crypt git-lfs
 git config --global core.precomposeunicode true
 git config --global core.quotepath false
 
+echo "Set git config later.."
+echo "git config --global user.name [NAME]"
+echo "git config --global user.email [EMAIL]"
 
 #------------------------------------------------------------------------------
 # Java 환경설정
@@ -67,6 +76,14 @@ brew install openjdk # openjdk 18. latest
 # jenv add $(/usr/libexec/java_home -v1.8)
 jenv add $(/usr/libexec/java_home -V)  # 설치된 모든 JAVA Versions을 jenv 환경으로 등록
 jenv versions
+
+#------------------------------------------------------------------------------
+# Brewfile 복구: Install executables and libraries
+#   - Brewfile 백업 -> brew bundle dump -f
+#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
+#------------------------------------------------------------------------------
+brew bundle --file=${DOTFILES}/Brewfile-init
+
 
 #------------------------------------------------------------------------------
 # iterm2 & shell 환경설정
@@ -95,31 +112,26 @@ function install_iterm2() {
 
 }
 # 최초설치시에만 실행
-if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
+# if ! [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom} ]]; then
+#   install_iterm2
+# fi
+
+read -p "install iterm2? (y/n) " -n 1;
+echo "";
+if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+  echo "install_iterm2 canceled."
+else 
   install_iterm2
-fi
+fi;
 
 #------------------------------------------------------------------------------
 # vim 환경설정
 #------------------------------------------------------------------------------
-function install_vimrc() {
-  # amix/vimrc를 통하여 기본환경 구성
-  git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-  sh ~/.vim_runtime/install_awesome_vimrc.sh
-
-  # Ctrl+f 단축키 매핑 변경 (기본설정은 페이지넘김 이슈)
-  sed -i '' 's/C-f/C-l/' ~/.vim_runtime/vimrcs/plugins_config.vim
-
-  # 옵션: vim brogrammer 색상테마 적용
-  mkdir -p ~/.vim/colors && curl https://raw.githubusercontent.com/marciomazza/vim-brogrammer-theme/master/colors/brogrammer.vim > ~/.vim/colors/brogrammer.vim
-  echo "colorscheme brogrammer" >> ~/.vimrc
-
-}
 function install_neovim() {
   brew install neovim
   # MesloLGS NF가 없는 경우
-  # brew tap homebrew/cask-fonts
-  # brew install font-meslo-lg-nerd-font
+  brew tap homebrew/cask-fonts
+  brew install font-meslo-lg-nerd-font
 
   echo -e 'Configure neovim. check .zshrc file.. 
     alias vim="nvim" 
@@ -139,31 +151,18 @@ function install_neovim() {
   ln -nfs $DOTFILES/.SpaceVim.d ~
 }
 # 최초설치시에만 실행
-if [[ ! -e ~/.viminfo ]]; then
-  # install_vimrc
+# if [[ ! -e ~/.viminfo ]]; then
+#   # install_vimrc
+#   install_neovim
+# fi
+read -p "install neovim? (y/n) " -n 1;
+echo "";
+if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+  echo "install_neovim canceled."
+else 
   install_neovim
-fi
+fi;
 
-# 주요파일 Symbolic link로 강제 update
-for name in gitignore gitalias zshrc; do
-  ln -nfs $DOTFILES/.$name ~
-done
-
-#------------------------------------------------------------------------------
-# Brewfile 복구: Install executables and libraries
-#   - Brewfile 백업 -> brew bundle dump -f
-#   - Brewfile 복구 -> brew bundle --file=${DOTFILES}/Brewfile
-#------------------------------------------------------------------------------
-brew bundle --file=${DOTFILES}/Brewfile-init
-
-#------------------------------------------------------------------------------
-# Application
-#------------------------------------------------------------------------------
-# brew install --cask lens     # docker/k8s admin ui & monitoring
-# brew install --cask charles  # HTTP Comunication Proxy Hooking (HTTP 디버깅)
-# brew install --cask "authy"  # OTP앱 - Authy Desktop 말고, 1/10 사이즈인 iPad용 authy 설치
-
-# brew install --cask "shiftit"  # 윈도우 창 이동 -> hammerspoon script로 대체
 
 
 # source .macos

@@ -3,11 +3,21 @@
 [alias]
     alias-basic = "!#----------------------------------------------------------;\n\
         git alias | head -7"
+    br = branch
+    rb = rebase
+    cm = commit
+    pl = pull
+    ps = push
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ar)%C(reset)  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+    ad = add
+    tg = tag
+    df = diff
     ci = commit
     co = checkout
     sw = switch
     re = restore
     s = status -s
+    st = status
     assume   = update-index --assume-unchanged
     assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
     unassume = update-index --no-assume-unchanged
