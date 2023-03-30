@@ -13,7 +13,7 @@ require('modules.inputsource_aurora') --01.오로라 인풋 소스: 한글일 �
 
 require('modules.auto_script') --autoclick, autokey
 
-require('modules.window_move') 
+require('modules.window_move') -- windows control 
 
 -------------------------------------------------------------------------------
 hyper = {"ctrl", "shift", "cmd"}
@@ -40,6 +40,10 @@ hs.hotkey.bind({'shift', 'option'}, 'c', function() --keymap: Launch Chrome
 	hs.application.launchOrFocus("Google Chrome")
 end)
 
+-- 문자 붙여넣기
+-- hs.hotkey.bind(hyper, 'p', function() --keymap: Launch Chrome
+-- 	hs.eventtap.keyStrokes("abcd") 
+-- end)
 
 -------------------------------------------------------------------------------
 --03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
@@ -74,8 +78,8 @@ do  -- input sorce changer
         end
     end
 
-    hs.hotkey.bind({'shift'}, 'space', changeInput)
-    -- hs.hotkey.bind({}, 'F14', changeInput)
+    -- hs.hotkey.bind({'shift'}, 'space', changeInput)
+    hs.hotkey.bind({}, 'F16', changeInput)
 end
 
 -- f13 key를 escape로 매핑 
@@ -112,7 +116,6 @@ end
 
 
 ------
-
 
 
 -- Start Macros

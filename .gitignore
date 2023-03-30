@@ -35,4 +35,5 @@ tmp/**/*
 test*
 Brewfile.lock.json
 .gitconfig
-.kube/*
+.kube
+

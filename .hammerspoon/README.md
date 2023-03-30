@@ -10,3 +10,5 @@
 ## 추가한 코드
 > modules.auto_script.lua 
 > - auto click, auto forward For GGliding
+
+

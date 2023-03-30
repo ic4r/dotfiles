@@ -1,13 +1,15 @@
 ---------- AutoClick ----------
 enableAutoClick = false
 -- Seconds to delay before next click. 0.001 works OK.
-speedDelay = 0.05
+speedDelay = 0.001
 myTimer = nil
+pos = nil
 
 function mouseClick()
     -- Run right mouseclick
     -- hs.eventtap.rightClick(hs.mouse.getAbsolutePosition())
-    hs.eventtap.leftClick(hs.mouse.getAbsolutePosition())
+    -- hs.eventtap.leftClick(hs.mouse.getAbsolutePosition())
+    hs.eventtap.leftClick(pos)
 end
 
 function isAutoClickerEnabled()
@@ -22,23 +24,24 @@ function sleep(n)
 end
 
 
-hs.hotkey.bind({"ctrl", "shift", "cmd"}, "s", function() 
-    -- Set continuous run to true
-    if enableAutoClick then 
-        enableAutoClick = false
-        myTimer = nil
-        hs.alert.show("Stop Auto Click!")
-        hs.notify.new({title="[STOP] Auto clk", informativeText=""}):send()
-    else 
-        enableAutoClick = true
-        myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
-        hs.alert.show("Start Auto Click!")
-        hs.notify.new({title="[START] Auto clk", informativeText=""}):send()
-    end
+-- hs.hotkey.bind({"ctrl", "shift", "cmd"}, "s", function() 
+--     -- Set continuous run to true
+--     if enableAutoClick then 
+--         enableAutoClick = false
+--         myTimer = nil
+--         hs.alert.show("Stop Auto Click!")
+--         hs.notify.new({title="[STOP] Auto clk", informativeText=""}):send()
+--     else 
+--         enableAutoClick = true
+--         pos = hs.mouse.getAbsolutePosition()
+--         myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
+--         hs.alert.show("Start Auto Click!")
+--         hs.notify.new({title="[START] Auto clk", informativeText=""}):send()
+--     end
 
-    -- enableAutoClick = true
-    -- myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
-end)
+--     -- enableAutoClick = true
+--     -- myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
+-- end)
 
 --------------Auto forward ---------------------------------------------------
 -- 
