@@ -215,6 +215,10 @@ sh import_gpg_ssh.sh
 
 if ! [ 0 == "$?" ]; then echo "gpg key import fail."; exit; fi
 
+if [ -e $DOTFILES/.ssh/dev ]; then
+  chmod +x $DOTFILES/.ssh/dev
+fi
+
 # gnupg permission & for github
 brew install pinentry-mac  # github gpg key pw-input window
 mkdir -p ~/.gnupg 
@@ -229,7 +233,7 @@ chmod 700 ~/.gnupg
 #------------------------------------------------------------------------------
 # git clone git@github.com:ic4r/.hammerspoon.git ~/.hammerspoon
 # 변경 => 설정코드는 dotfiles 폴더로 옮기고 symlink 걸어주도록 변경
-brew install "hammerspoon" --cask
+brew install hammerspoon --cask
 ln -nfs $DOTFILES/.hammerspoon ~
 
 
