@@ -69,7 +69,7 @@ cp $HOME/.kube/* $DOTFILES/.kube 2>/dev/null
 
 # .ssh folder backup (gpg->bitwarden - bitwarden-password) 
 # 필요시 아래 스크립트 직접수행
-# source ~/dotfiles/function_bitwarden.sh && push_folder ~/.ssh
+source ~/dotfiles/function_bitwarden.sh && push_folder ~/.ssh
 echo "source ~/dotfiles/function_bitwarden.sh && push_folder ~/.ssh"
 echo -e "[.ssh backup PASSED!]\n"
 

@@ -13,7 +13,7 @@ require('modules.inputsource_aurora') --01.오로라 인풋 소스: 한글일 �
 
 require('modules.auto_script') --autoclick, autokey
 
-require('modules.window_move') -- windows control 
+-- require('modules.window_move') -- windows control 창이동 컨트롤 23.4.26 rectangle로 이동
 
 -------------------------------------------------------------------------------
 hyper = {"ctrl", "shift", "cmd"}

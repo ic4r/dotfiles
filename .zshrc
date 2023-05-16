@@ -148,10 +148,14 @@ alias java_home=/usr/libexec/java_home
 #stty icrnl
 
 # nvim - Neo Vim
-alias vim="nvim"
-alias vi="nvim"
-alias vimdiff="nvim -d"
-export EDITOR=/usr/local/bin/nvim
+#alias vim="nvim"
+#alias vi="nvim"
+#alias vimdiff="nvim -d"
+#export EDITOR=/usr/local/bin/nvim
+#
+
+# ad_query command
+source ~/.ssh/ad_query.sh
 
 # kubectl 
 [[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
