@@ -154,6 +154,8 @@ alias java_home=/usr/libexec/java_home
 #export EDITOR=/usr/local/bin/nvim
 #
 
+export PATH="$PATH:/Users/a1101066/.local/bin" # Added by Docker Gremlin"
+
 # ad_query command
 source ~/.ssh/ad_query.sh
 
