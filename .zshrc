@@ -148,11 +148,10 @@ alias java_home=/usr/libexec/java_home
 #stty icrnl
 
 # nvim - Neo Vim
-#alias vim="nvim"
-#alias vi="nvim"
-#alias vimdiff="nvim -d"
-#export EDITOR=/usr/local/bin/nvim
-#
+alias vim="nvim"
+alias vi="nvim"
+alias vimdiff="nvim -d"
+export EDITOR=/usr/local/bin/nvim
 
 export PATH="$PATH:/Users/a1101066/.local/bin" # Added by Docker Gremlin"
 
