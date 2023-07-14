@@ -105,6 +105,7 @@ function bw_create_securefolder() {
     ITEM_ID=""
     if [ -n "$4" ]; then
         ITEM_ID=$4
+        echo "ITEM_ID=$4"
     fi
 
 
@@ -173,7 +174,7 @@ function push_folder() {
 
     local DESC=""    # 폴더아이디
     if [ -z "$4" ]; then
-        DESC="$FOLDER folder backup"
+        DESC="$(date "+%Y-%m-%d %H:%M") $HOST $FOLDER folder backup"
     else
         DESC=$4
     fi
@@ -195,7 +196,7 @@ function push_folder() {
         echo "Create New KEY: bw_create_securenote $FOLDER $DESC $FID "
         bw_create_securefolder $FOLDER $DESC $FID
     else
-        echo "Update Exist KEY : bw_create_securenote $FOLDER $DESC $FID $ITEM_ID"
+        echo "Update Exist KEY : bw_create_securenote $FOLDER '$DESC' $FID $ITEM_ID"
         bw_create_securefolder $FOLDER $DESC $FID $ITEM_ID
     fi
 
