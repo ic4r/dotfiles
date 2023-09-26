@@ -1,0 +1,6 @@
+[submodule ".hammerspoon/Spoons/HyperKey.spoon"]
+	path = .hammerspoon/Spoons/HyperKey.spoon
+	url = https://github.com/dbalatero/HyperKey.spoon.git
+[submodule ".hammerspoon/Spoons/SkyRocket.spoon"]
+	path = .hammerspoon/Spoons/SkyRocket.spoon
+	url = https://github.com/dbalatero/SkyRocket.spoon.git
