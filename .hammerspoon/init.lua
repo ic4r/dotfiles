@@ -27,8 +27,8 @@ hs.alert.defaultStyle.textColor = {white = 10, alpha = 10}
 --03.Lock the screen -> {"cmd", "option", "ctrl"}, "l"
 --04. 한글 입력 전환하기 -> {'shift'}, 'space'
 
-require('modules.inputsource_aurora') -- 오로라 인풋 소스: 한글일 때 상단바 녹색으로 표시
-require('modules.auto_script')        -- autoclick, autokey
+-- require('modules.inputsource_aurora') -- 오로라 인풋 소스: 한글일 때 상단바 녹색으로 표시
+-- require('modules.auto_script')        -- autoclick, autokey
 -- require('modules.window_move')        -- windows control 창이동 컨트롤 
 require('modules.volume_control')     -- volume Control
 
