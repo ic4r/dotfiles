@@ -23,7 +23,7 @@ function sleep(n)
     end
 end
 
-
+--------------Auto Click ---------------------------------------------------
 -- hs.hotkey.bind({"ctrl", "shift", "cmd"}, "s", function() 
 --     -- Set continuous run to true
 --     if enableAutoClick then 
@@ -43,8 +43,8 @@ end
 --     -- myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
 -- end)
 
+/*
 --------------Auto forward ---------------------------------------------------
--- 
 enableAutoKey = false
 keySpeedDelay = 0.05
 myKeyTimer = nil
@@ -75,6 +75,6 @@ hs.hotkey.bind({"ctrl", "shift", "cmd"}, "w", function()
     -- enableAutoKey = true
     -- myKeyTimer = hs.timer.doWhile(isAutoKeyEnabled, fowradKeyClick, keySpeedDelay)
 end)
-
+*/
 
 ------

@@ -19,9 +19,9 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 cd "$(dirname "${BASH_SOURCE}")"; # 스크립트가 실행되는 경로로 이동
 
 ### Private ###
-if ! [[ -f $DOTFILES/.key.env.sh ]]; then 
+if ! [[ -f $DOTFILES/.key.env.sh ]]; then
   echo "Not Exist key variables file ->  [.key.env.sh]"; exit;
-else 
+else
   . .key.env.sh
   echo "Key Variables(.key.env.sh) Loading..."
 fi
@@ -91,7 +91,7 @@ git config --global core.quotepath false
 #brew install zulu8 --cask
 brew install zulu17 --cask
 
-brew install openjdk # openjdk 18. latest 
+brew install openjdk # openjdk 18. latest
 # brew install openjdk@17
 
 # jenv add $(/usr/libexec/java_home -v1.8)
@@ -157,11 +157,11 @@ function install_neovim() {
   # brew tap homebrew/cask-fonts
   # brew install font-meslo-lg-nerd-font
 
-  echo -e 'Configure neovim. check .zshrc file.. 
-    alias vim="nvim" 
-    alias vi="nvim" 
-    alias vimdiff="nvim -d" 
-    export EDITOR=/usr/local/bin/nvim 
+  echo -e 'Configure neovim. check .zshrc file..
+    alias vim="nvim"
+    alias vi="nvim"
+    alias vimdiff="nvim -d"
+    export EDITOR=/usr/local/bin/nvim
   '
 
   # spacevim 설치
@@ -174,11 +174,20 @@ function install_neovim() {
   #cp .SpaceVim.d/init.toml ~/.SpaceVim.d/
   ln -nfs $DOTFILES/.SpaceVim.d ~
 }
-# 최초설치시에만 실행
-if ! [[ -d ~/.SpaceVim.d ]]; then
-  # install_vimrc
-  install_neovim
-fi
+
+read -p "neovim[n] or spacevim[s]. type (n/s) " -n 1;
+echo ""
+
+if [[ $REPLY =~ ^[Nn]$ ]]; then
+    echo "Installing Neovim..."
+    install_neovim
+elif [[ $REPLY =~ ^[Ss]$ ]]; then
+    echo "Installing SpaceVim Plugin..."
+    install_vimrc
+elif ! [[ $REPLY =~ ^[NnSs]$ ]]; then
+    echo "PASS Vim Config."
+fi;
+
 
 # 주요파일 Symbolic link로 강제 update
 for name in gitignore gitalias zshrc; do
@@ -196,7 +205,7 @@ brew bundle --file=${DOTFILES}/Brewfile
 ### Private ###
 #------------------------------------------------------------------------------
 # gpg & ssh 환경복구
-# gpg 키는 bitwarden에 암호화되어 보관 (bitwarden -> base64 -> gpg 복구 -> ssh key 복구) 
+# gpg 키는 bitwarden에 암호화되어 보관 (bitwarden -> base64 -> gpg 복구 -> ssh key 복구)
 #------------------------------------------------------------------------------
 function bw_install() {
     if brew ls --versions bitwarden-cli > /dev/null; then
@@ -221,7 +230,7 @@ fi
 
 # gnupg permission & for github
 brew install pinentry-mac  # github gpg key pw-input window
-mkdir -p ~/.gnupg 
+mkdir -p ~/.gnupg
 echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
 chmod 600 ~/.gnupg/*
 chmod 700 ~/.gnupg
@@ -259,17 +268,17 @@ echo -e "\n👏👏👏 macos configuration restore complete!!"
 nyancat
 
 function makecron() {
-  # crontab에 백업 스크립트 및 로그 제거 스크립트 등록 
+  # crontab에 백업 스크립트 및 로그 제거 스크립트 등록
   if ! [[ -n $(crontab -l | grep dotfiles/backup.sh) ]]; then
     # 로그폴더 생성 - .gitignore에 등록됨
     mkdir -p $DOTFILES/log
 
     # 매일 12시 정각 백업을 수행하고 로그를 남긴다.
     CRONJOB="00 12 * * * yes | $DOTFILES/backup.sh > $DOTFILES/log/backup_\$(date +\%m\%d_\%H\%M).log 2>&1"
-    
+
     # 매일 12시10분에 30일 경과 로그를 삭제한다.
     LOGDJOB="10 12 * * * find $DOTFILES/log -maxdepth 1 -mtime +30 -type f -exec rm -f {} \;"
-    
+
     # crontab 등록
     (crontab -l && echo "$CRONJOB" && echo "$LOGDJOB") | crontab -
 
