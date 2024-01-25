@@ -175,4 +175,9 @@ export KUBECONFIG=~/.kube/config:~/.kube/int-k8s-dev-config
 
 export COLUMNS="120"
 
-export PATH="$PATH:/Users/a1101066/ACLI"
+export PATH="$PATH:${HOME}/ACLI"
+
+eval "$(atuin init zsh)"
+export HOMEBREW_NO_INSTALL_CLEANUP=true
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
