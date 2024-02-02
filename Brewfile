@@ -8,17 +8,17 @@ tap "homebrew/services"
 tap "hudochenkov/sshpass"
 tap "weaveworks/tap"
 brew "argocd"
-brew "python@3.10"
+brew "openssl@3"
 brew "asciinema"
-brew "python@3.11"
+brew "atuin"
 brew "docutils"
+brew "python@3.11"
 brew "awscli"
 brew "bash"
 brew "bat"
 brew "node"
 brew "bitwarden-cli"
 brew "glib"
-brew "python@3.9"
 brew "colordiff"
 brew "coreutils"
 brew "deno"
@@ -48,7 +48,6 @@ brew "helm"
 brew "hexyl"
 brew "htop"
 brew "httpie"
-brew "openssl@3", link: false
 brew "iperf3"
 brew "iproute2mac"
 brew "istioctl"
@@ -56,6 +55,7 @@ brew "jenv"
 brew "jq"
 brew "k9s"
 brew "kubernetes-cli"
+brew "krew"
 brew "kubectx"
 brew "lazydocker"
 brew "mas"
@@ -70,6 +70,8 @@ brew "pinentry-mac"
 brew "procs"
 brew "pyenv"
 brew "pyenv-virtualenv"
+brew "python@3.10"
+brew "python@3.9"
 brew "rbenv"
 brew "rig"
 brew "sampler"
@@ -96,6 +98,7 @@ cask "dbeaver-community"
 cask "docker"
 cask "firefox"
 cask "font-fira-code"
+cask "google-chrome"
 cask "hammerspoon"
 cask "iina"
 cask "iterm2"
@@ -109,18 +112,20 @@ cask "slack"
 cask "sourcetree"
 cask "tabby"
 cask "tableplus"
-cask "temurin17"
+cask "temurin"
 cask "visual-studio-code"
 cask "wireshark"
 mas "AutoTyper", id: 1381314885
 mas "Brother iPrint&Scan", id: 1193539993
 mas "Dino VPN", id: 1631721148
 mas "Fantastical", id: 975937182
+mas "FastZip", id: 1565629813
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "iShot", id: 1485844094
 mas "Keynote", id: 409183694
 mas "Kindle", id: 405399194
+mas "Memo", id: 1212409035
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft Outlook", id: 985367838
 mas "Microsoft PowerPoint", id: 462062816
@@ -131,7 +136,6 @@ mas "PhotoScape X", id: 929507092
 mas "RunCat", id: 1429033973
 mas "ScreenBrush", id: 1233965871
 mas "Telegram Lite", id: 946399090
-mas "The Unarchiver", id: 425424353
 mas "카카오톡", id: 869223134
 mas "한컴오피스 한글 2014 VP 뷰어", id: 416746898
 vscode "amazonwebservices.aws-toolkit-vscode"
@@ -143,7 +147,6 @@ vscode "donjayamanne.python-environment-manager"
 vscode "donjayamanne.python-extension-pack"
 vscode "eamodio.gitlens"
 vscode "ecmel.vscode-html-css"
-vscode "Equinusocio.vsc-community-material-theme"
 vscode "Equinusocio.vsc-material-theme"
 vscode "equinusocio.vsc-material-theme-icons"
 vscode "esbenp.prettier-vscode"
