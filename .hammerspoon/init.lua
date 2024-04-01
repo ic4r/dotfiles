@@ -189,8 +189,10 @@ hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
 
 hs.hotkey.bind(hyper2, "right", function() wm.moveWindowToPosition(wm.screenPositions.right) end)
 hs.hotkey.bind(hyper2, "left",  function() wm.moveWindowToPosition(wm.screenPositions.left) end)
-hs.hotkey.bind(hyper2, "up", function() wm.moveWindowToPosition(wm.screenPositions.top) end)
-hs.hotkey.bind(hyper2, "down", function() wm.moveWindowToPosition(wm.screenPositions.bottom) end)
+-- hs.hotkey.bind(hyper2, "up",    function() wm.moveWindowToPosition(wm.screenPositions.top) end)
+-- hs.hotkey.bind(hyper2, "down",  function() wm.moveWindowToPosition(wm.screenPositions.bottom) end)
+hs.hotkey.bind(hyper2, "up",    function() wm.heght_top() end)
+hs.hotkey.bind(hyper2, "down",  function() wm.heght_bottom() end)
 
 hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
 hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
