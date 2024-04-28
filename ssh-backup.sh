@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 DOTFILES=$HOME/dotfiles
+source $DOTFILES/.key.env.sh
+source ~/dotfiles/function_bitwarden.sh
 
 cd "$(dirname "${BASH_SOURCE}")";
 
@@ -8,21 +10,20 @@ cd "$(dirname "${BASH_SOURCE}")";
 # 필요시 직접수행: gpg export -> bw create item
 
 ## hosts file backup
-cp /etc/hosts .ssh/hosts
-mkdir -p .kube
+cp /etc/hosts $DOTFILES/.ssh/hosts
+mkdir -p $DOTFILES/.kube
 cp $HOME/.kube/config* $DOTFILES/.kube 2>/dev/null
 
 # .ssh folder backup (gpg->bitwarden - bitwarden-password) 
-echo ".ssh 폴더 백업"
 FOLDER=$(readlink -f .ssh)
-DESC="$(date '+%Y-%m-%d %H:%M') $HOST $FOLDER"
-FID=$BW_FOLDER_ID
-ITEMID=$BW_SSH_ITEM
+DESC="$(date '+%Y-%m-%d %H:%M') $HOST "
 
-source ~/dotfiles/function_bitwarden.sh && bw_create_securefolder $FOLDER "$DESC" $FID $ITEMID
+echo ".ssh 폴더 백업: bw_create_securefolder $FOLDER [$DESC] $BW_FOLDER_ID $BW_SSH_ITEM"
 
-#push_folder ~/.ssh
-echo -e "[.ssh backup]\n"
+# source ~/dotfiles/function_bitwarden.sh && bw_create_securefolder $FOLDER "$DESC" $BW_FOLDER_ID $BW_SSH_ITEM
+
+push_folder ~/.ssh
+echo -e "[.ssh backup complete.]\n"
 echo "실패시, gpg --edit-key <KEY_ID> -> gpg> trust -> 5"
 
 # icloud Documents 동기화폴더에도 복사해 주자. 
