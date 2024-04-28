@@ -131,6 +131,8 @@ export PATH="$(pyenv root)/shims:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
+
+# iterm2
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # ssh PATH
@@ -179,4 +181,15 @@ export PATH="$PATH:${HOME}/ACLI"
 
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+
+# CLI - syntax-highlight
+LESSPIPE=`which src-hilite-lesspipe.sh`
+export LESSOPEN="| ${LESSPIPE} %s"
+export LESS=' -R -X -F '
+alias less='less -R'
+alias more='more -R'
+alias ccat='highlight -O ansi --force'
+alias lcat=lolcat
 
