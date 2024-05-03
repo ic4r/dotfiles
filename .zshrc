@@ -113,8 +113,8 @@ export DOTFILES=$HOME/dotfiles
 
 # import 
 source $DOTFILES/.key.env.sh
-source $DOTFILES/alias.sh
-source $DOTFILES/function.sh
+source $DOTFILES/bin/functions.sh
+source $DOTFILES/bin/alias.sh
 source $DOTFILES/function_gpg.sh
 function bit() {
   source $DOTFILES/function_bitwarden.sh
@@ -158,9 +158,6 @@ alias java_home=/usr/libexec/java_home
 #export EDITOR=/usr/local/bin/nvim
 #
 export PATH="$PATH:/Users/a1101066/.local/bin" # Added by Docker Gremlin"
-
-# ad_query command
-source ~/.ssh/ad_query.sh
 
 # kubectl 
 [[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)

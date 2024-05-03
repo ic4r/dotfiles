@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ad_query() {
     source $HOME/dotfiles/.key.env.sh    
     # LDAP_URL=''
@@ -30,3 +32,4 @@ ad_query() {
     fi
     echo "$DN  ($INFO)"
 }
+
