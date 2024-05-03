@@ -171,7 +171,7 @@ complete -F __start_kubectl k
 #source <(minikube completion zsh)
 
 # multi kubernetes context 
-export KUBECONFIG=~/.kube/config:~/.kube/int-k8s-dev-config
+#export KUBECONFIG=~/.kube/config:~/.kube/int-k8s-dev-config
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

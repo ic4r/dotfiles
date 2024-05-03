@@ -63,6 +63,89 @@ function This.windowMaximize(factor, window)
    end
 end
 
+prevFrameSizes2 = {}
+function This.heght_max()
+
+  local curWin = hs.window.focusedWindow()
+
+  if curWin then
+    local frame = curWin:frame()
+    local screen = curWin:screen():frame()
+
+    if prevFrameSizes2[curWin:id()] then
+
+      curWin:setFrame(prevFrameSizes2[curWin:id()])
+      prevFrameSizes2[curWin:id()] = nil
+    else
+
+      prevFrameSizes2[curWin:id()] = hs.geometry.copy(frame)
+      frame.y = 0
+      frame.h = screen.h
+
+      curWin:setFrame(frame, 0)
+
+    end
+  end
+
+end
+
+function This.heght_top()
+
+  local curWin = hs.window.focusedWindow()
+
+  if curWin then
+    local frame = curWin:frame()
+    local screen = curWin:screen():frame()
+
+    if prevFrameSizes3[curWin:id()] then
+      hs.alert.show("위 풀")
+      -- curWin:setFrame(prevFrameSizes3[curWin:id()])
+      prevFrameSizes3[curWin:id()] = nil
+      frame.y = 0
+      frame.h = screen.h
+
+    else
+      hs.alert.show("위 반쪽")
+      prevFrameSizes3[curWin:id()] = hs.geometry.copy(frame)
+      frame.y = 0
+      frame.h = screen.h/2
+
+    end
+
+    curWin:setFrame(frame, 0)
+  end
+
+end
+
+prevFrameSizes3 = {}
+function This.heght_bottom()
+
+  local curWin = hs.window.focusedWindow()
+
+  if curWin then
+    local frame = curWin:frame()
+    local screen = curWin:screen():frame()
+
+    if prevFrameSizes3[curWin:id()] then
+      hs.alert.show("아래 풀")
+      -- curWin:setFrame(prevFrameSizes3[curWin:id()])
+      prevFrameSizes3[curWin:id()] = nil
+      frame.y = 0
+      frame.h = screen.h
+
+    else
+      hs.alert.show("아래 반쪽")
+      prevFrameSizes3[curWin:id()] = hs.geometry.copy(frame)
+      frame.y = screen.h/2
+      frame.h = screen.h/2
+
+    end
+
+    curWin:setFrame(frame, 0)
+  end
+
+end
+
 
 function This.size_plus(JUMP_SIZE)
   local win = hs.window.focusedWindow()
