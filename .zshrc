@@ -181,7 +181,11 @@ export COLUMNS="120"
 
 export PATH="$PATH:${HOME}/ACLI"
 
-eval "$(atuin init zsh)"
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# ngrok completion
+#if command -v ngrok &>/dev/null; then
+#  eval "$(ngrok completion)"
+#fi
+export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
