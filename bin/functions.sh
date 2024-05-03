@@ -715,3 +715,7 @@ listening() {
         echo "Usage: listening [pattern]"
     fi
 }
+
+# ad_query()
+source $HOME/dotfiles/bin/ad_query.sh
+
