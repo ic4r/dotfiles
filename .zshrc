@@ -109,14 +109,21 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export DOTFILES=$HOME/dotfiles
+
 # import 
-source ~/dotfiles/.key.env.sh
-source ~/dotfiles/alias.sh
-source ~/dotfiles/function.sh
-source ~/dotfiles/function_gpg.sh
+source $DOTFILES/.key.env.sh
+source $DOTFILES/alias.sh
+source $DOTFILES/function.sh
+source $DOTFILES/function_gpg.sh
 function bit() {
-  source ~/dotfiles/function_bitwarden.sh
+  source $DOTFILES/function_bitwarden.sh
 }
+
+# PATHs for dotfiles
+export PATH=$DOTFILES:$DOTFILES/bin:$PATH
+alias dev="$DOTFILES/bin/dev-cyberark.sh"
+
 
 # jenv
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -132,9 +139,6 @@ if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# ssh PATH
-export PATH=~/.ssh:~/dotfiles:$PATH
 
 # java
 alias java_home=/usr/libexec/java_home
