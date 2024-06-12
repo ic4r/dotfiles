@@ -135,7 +135,9 @@ function This.moveRight()
     local frame = curWin:frame()
     local screen = curWin:screen():frame()
 
-    if frame.x < screen.x + JUMP_SIZE then
+    printFrameAndScreen("RIGHT=>")
+
+    if frame.x + JUMP_SIZE < screen.x + screen.w / 2 then
       This.moveWindowToPosition(screenPositions.right)
     else
       frame.x = frame.x + JUMP_SIZE

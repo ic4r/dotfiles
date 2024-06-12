@@ -28,9 +28,9 @@ hs.alert.defaultStyle.textColor = {white = 10, alpha = 10}
 --04. 한글 입력 전환하기 -> {'shift'}, 'space'
 
 -- require('modules.inputsource_aurora') -- 오로라 인풋 소스: 한글일 때 상단바 녹색으로 표시
--- require('modules.auto_script')        -- autoclick, autokey
--- require('modules.window_move')        -- windows control 창이동 컨트롤 
+require('modules.auto_script')        -- autoclick, autokey
 require('modules.volume_control')     -- volume Control
+
 
 
 
@@ -72,11 +72,11 @@ do  -- input sorce changer
         end
         hs.keycodes.currentSourceID(nextInput)
 
-        -- if nextInput == inputSource.english then
-        -- 	hs.alert.show("English")
-        -- else
-        -- 	hs.alert.show("한글")
-        -- end
+        if nextInput == inputSource.english then
+        	hs.alert.show("English")
+        else
+        	hs.alert.show("한글")
+        end
     end
 
     -- hs.hotkey.bind({'shift'}, 'space', changeInput)
@@ -170,9 +170,11 @@ hyperKey
 
 -----------------------------------------------------------------------------
 -- Window Management
+---- require('modules.window_move')        -- windows control 창이동 컨트롤 // 미사용
 -----------------------------------------------------------------------------
 local hyper2 = {'cmd', 'alt', 'ctrl'}
 local wm = require('modules/window-management')
+
 
 hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
 hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
