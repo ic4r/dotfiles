@@ -141,10 +141,10 @@ export PATH=~/.ssh:~/dotfiles:$PATH
 # java
 alias java_home=/usr/libexec/java_home
 #"JAVA Version: jenv versions -> jenv global 18"
-#export JAVA_HOME=$(java_home -v17)
-# alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-# alias setJava17='export JAVA_HOME=$(/usr/libexec/java_home -v 18)'
-# export PATH="$JAVA_HOME:$PATH"
+#export JAVA_HOME=$(java_home -v 1.8)
+#alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
+#alias setJava17='export JAVA_HOME=$(/usr/libexec/java_home -v 18)'
+#export PATH="$PATH:$JAVA_HOME"
 
 # stty - ^M 
 #stty icrnl
@@ -193,3 +193,4 @@ alias more='more -R'
 alias ccat='highlight -O ansi --force'
 alias lcat=lolcat
 
+eval "$(gh copilot alias -- zsh)"

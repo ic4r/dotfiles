@@ -2,6 +2,17 @@
 
 #------------------------------------------------------------------------------
 # New m1 macos first install
+# 사용자의 동의를 받아 진행 여부 결정
+# 필수 환경 변수 설정
+# 주요 설정 파일들을 백업하고 업데이트
+# Xcode Command Line Tools 설치
+# Homebrew 설치 및 설정
+# Apple Silicon M1 기반 Mac에서 Rosetta 2 설치
+# Git 및 관련 도구 설치, Git 설정
+# Java 환경 설정 및 jenv를 통한 Java 버전 관리
+# Brewfile을 이용한 소프트웨어 일괄 설치
+# iTerm2 및 Zsh 환경 설정, Oh My Zsh 및 테마, 플러그인 설치
+# Neovim 설치 및 설정
 #------------------------------------------------------------------------------
 read -p "신규 macos 개발환경을 빠르게 구성할 수 있지만, 쓸데없는 기능까지 설치될 수 있습니다. 진행할까요? (y/n) " -n 1;
 echo "";
@@ -27,6 +38,22 @@ cp -f $DOTFILES/.zshrc-init ~/.zshrc
 
 # Command Line Tool 설치 (기본명령어 설치 /Library/Developer/CommandLineTools/usr/bin)
 xcode-select --install
+
+# $?는 마지막 실행된 명령어의 종료 상태를 나타냅니다.
+# 0이면 성공, 0이 아니면 에러. 특정 에러 코드(예: 130)는 이미 설치되어 있거나 설치 중임을 나타낼 수 있습니다.
+if [ $? -ne 0 ]; then
+    # xcode-select의 상태를 확인합니다.
+    xcode_select_status=$(xcode-select -p &> /dev/null; echo $?)
+    
+    # xcode-select -p의 종료 상태가 0이면, Command Line Tools가 이미 설치되어 있음을 의미합니다.
+    if [ $xcode_select_status -eq 0 ]; then
+        echo "Command Line Tools가 이미 설치되어 있습니다. 계속 진행합니다."
+    else
+        echo "Command Line Tool 설치에 실패했습니다. 스크립트를 종료합니다."
+        echo "설치 후 다시 실행해주세요. => xcode-select --install"
+        exit 1
+    fi
+fi
 
 # Homebrew 설치가 안되어 있으면 설치
 if ! [[ -x "$(command -v brew)" ]]; then
@@ -70,7 +97,7 @@ echo "git config --global user.email [EMAIL]"
 #brew install zulu8 --cask
 brew install zulu17 --cask
 
-brew install openjdk # openjdk 18. latest 
+# brew install openjdk # openjdk 18. latest 
 # brew install openjdk@17
 
 # jenv add $(/usr/libexec/java_home -v1.8)
