@@ -138,15 +138,17 @@ export PATH="$(pyenv root)/shims:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
+
+# iterm2
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # java
 alias java_home=/usr/libexec/java_home
 #"JAVA Version: jenv versions -> jenv global 18"
-#export JAVA_HOME=$(java_home -v17)
-# alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-# alias setJava17='export JAVA_HOME=$(/usr/libexec/java_home -v 18)'
-# export PATH="$JAVA_HOME:$PATH"
+#export JAVA_HOME=$(java_home -v 1.8)
+#alias setJava8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
+#alias setJava17='export JAVA_HOME=$(/usr/libexec/java_home -v 18)'
+#export PATH="$PATH:$JAVA_HOME"
 
 # stty - ^M 
 #stty icrnl
@@ -181,8 +183,19 @@ export PATH="$PATH:${HOME}/ACLI"
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# CLI - syntax-highlight
+LESSPIPE=`which src-hilite-lesspipe.sh`
+export LESSOPEN="| ${LESSPIPE} %s"
+export LESS=' -R -X -F '
+alias less='less -R'
+alias more='more -R'
+alias ccat='highlight -O ansi --force'
+alias lcat=lolcat
+
+eval "$(gh copilot alias -- zsh)"
+
 # ngrok completion
 #if command -v ngrok &>/dev/null; then
 #  eval "$(ngrok completion)"
 #fi
-export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+

@@ -27,7 +27,7 @@ echo -e "[.ssh backup complete.]\n"
 echo "실패시, gpg --edit-key <KEY_ID> -> gpg> trust -> 5"
 
 # icloud Documents 동기화폴더에도 복사해 주자. 
-rsync -avh $DOTFILES ~/Documents/ --exclude .git --exclude log/ --delete
+rsync -avh $DOTFILES ~/Documents/$(hostname) --exclude .git --exclude log/ --delete
 echo -e "[rsync to icloud documents backup Complete!]\n"
 
 echo "$(date "+%Y-%m-%d %H:%M") Backup to https://github.com/ic4r/dotfiles Complete!"
