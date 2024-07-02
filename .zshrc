@@ -109,14 +109,21 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export DOTFILES=$HOME/dotfiles
+
 # import 
-source ~/dotfiles/.key.env.sh
-source ~/dotfiles/alias.sh
-source ~/dotfiles/function.sh
-source ~/dotfiles/function_gpg.sh
+source $DOTFILES/.key.env.sh
+source $DOTFILES/bin/functions.sh
+source $DOTFILES/bin/alias.sh
+source $DOTFILES/function_gpg.sh
 function bit() {
-  source ~/dotfiles/function_bitwarden.sh
+  source $DOTFILES/function_bitwarden.sh
 }
+
+# PATHs for dotfiles
+export PATH=$DOTFILES:$DOTFILES/bin:$PATH
+alias dev="$DOTFILES/bin/dev-cyberark.sh"
+
 
 # jenv
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -134,9 +141,6 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 
 # iterm2
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# ssh PATH
-export PATH=~/.ssh:~/dotfiles:$PATH
 
 # java
 alias java_home=/usr/libexec/java_home
@@ -156,9 +160,6 @@ alias java_home=/usr/libexec/java_home
 #export EDITOR=/usr/local/bin/nvim
 #
 export PATH="$PATH:/Users/a1101066/.local/bin" # Added by Docker Gremlin"
-
-# ad_query command
-source ~/.ssh/ad_query.sh
 
 # kubectl 
 [[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
@@ -182,8 +183,6 @@ export PATH="$PATH:${HOME}/ACLI"
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
-
 # CLI - syntax-highlight
 LESSPIPE=`which src-hilite-lesspipe.sh`
 export LESSOPEN="| ${LESSPIPE} %s"
@@ -194,3 +193,9 @@ alias ccat='highlight -O ansi --force'
 alias lcat=lolcat
 
 eval "$(gh copilot alias -- zsh)"
+
+# ngrok completion
+#if command -v ngrok &>/dev/null; then
+#  eval "$(ngrok completion)"
+#fi
+

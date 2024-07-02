@@ -23,3 +23,6 @@ alias su='sudo su'
 alias bup='brew update ; brew upgrade ; brew cleanup'
 alias history='history -i'
 alias procs='procs --thread --tree'
+
+# log tailing to browser 
+alias logw='npx logscreen'
