@@ -24,26 +24,26 @@ function sleep(n)
 end
 
 --------------Auto Click ---------------------------------------------------
--- hs.hotkey.bind({"ctrl", "shift", "cmd"}, "s", function() 
---     -- Set continuous run to true
---     if enableAutoClick then 
---         enableAutoClick = false
---         myTimer = nil
---         hs.alert.show("Stop Auto Click!")
---         hs.notify.new({title="[STOP] Auto clk", informativeText=""}):send()
---     else 
---         enableAutoClick = true
---         pos = hs.mouse.getAbsolutePosition()
---         myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
---         hs.alert.show("Start Auto Click!")
---         hs.notify.new({title="[START] Auto clk", informativeText=""}):send()
---     end
+hs.hotkey.bind({"ctrl", "shift", "cmd"}, "s", function() 
+    -- Set continuous run to true
+    if enableAutoClick then 
+        enableAutoClick = false
+        myTimer = nil
+        hs.alert.show("Stop Auto Click!")
+        hs.notify.new({title="[STOP] Auto clk", informativeText=""}):send()
+    else 
+        enableAutoClick = true
+        pos = hs.mouse.getAbsolutePosition()
+        myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
+        hs.alert.show("Start Auto Click!")
+        hs.notify.new({title="[START] Auto clk", informativeText=""}):send()
+    end
 
---     -- enableAutoClick = true
---     -- myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
--- end)
+    -- enableAutoClick = true
+    -- myTimer = hs.timer.doWhile(isAutoClickerEnabled, mouseClick, speedDelay)  
+end)
 
-/*
+
 --------------Auto forward ---------------------------------------------------
 enableAutoKey = false
 keySpeedDelay = 0.05
@@ -75,6 +75,6 @@ hs.hotkey.bind({"ctrl", "shift", "cmd"}, "w", function()
     -- enableAutoKey = true
     -- myKeyTimer = hs.timer.doWhile(isAutoKeyEnabled, fowradKeyClick, keySpeedDelay)
 end)
-*/
+
 
 ------

@@ -91,7 +91,7 @@ git config --global core.quotepath false
 #brew install zulu8 --cask
 brew install zulu17 --cask
 
-brew install openjdk # openjdk 18. latest
+# brew install openjdk # openjdk 18. latest
 # brew install openjdk@17
 
 # jenv add $(/usr/libexec/java_home -v1.8)
@@ -265,7 +265,7 @@ echo -e "\n👏👏👏 macos configuration restore complete!!"
 # 복구 작업 완료 - backup.sh crontab에 등록 및 쓰잘데기 없는 알람기능
 #------------------------------------------------------------------------------
 # 작업완료를 알리는 고양이 - crontab 등록시 터미널경고가 발생하므로 사용자 액션을 넣어봄
-nyancat
+#nyancat
 
 function makecron() {
   # crontab에 백업 스크립트 및 로그 제거 스크립트 등록
@@ -292,5 +292,5 @@ function makecron() {
 curl https://wttr.in/seoul -H "Accept-Language: ko-KR"
 
 # makecron
-echo -e "\n👻 crontab list:"
-crontab -l
+# echo -e "\n👻 crontab list:"
+# crontab -l
