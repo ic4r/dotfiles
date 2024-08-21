@@ -26,3 +26,5 @@ alias procs='procs --thread --tree'
 
 # log tailing to browser 
 alias logw='npx logscreen'
+
+alias dev-ip='cat ~/.ssh/dev_ip_list.txt'
