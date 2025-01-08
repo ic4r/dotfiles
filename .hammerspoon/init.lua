@@ -11,6 +11,7 @@
 -- Default 
 -----------------------------------------------------------------------------
 local hyper = {'cmd', 'shift', 'ctrl'}
+local hyper2 = {'cmd', 'alt', 'ctrl'}
 
 -- Make the alerts look nicer.
 hs.alert.defaultStyle.fillColor =  {white = 0.05, alpha = 0.75}
@@ -172,34 +173,35 @@ hyperKey
 -- Window Management
 ---- require('modules.window_move')        -- windows control 창이동 컨트롤 // 미사용
 -----------------------------------------------------------------------------
-local hyper2 = {'cmd', 'alt', 'ctrl'}
-local wm = require('modules/window-management')
+--
+-- #### rectangle 로 대체 ####
+--
+-- local wm = require('modules/window-management')
 
+-- hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
+-- hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
 
-hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
-hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
+-- hs.hotkey.bind(hyper2, "left",  function() wm.moveLeft() end)
+-- hs.hotkey.bind(hyper2, "right", function() wm.moveRight() end)
+-- hs.hotkey.bind(hyper2, "up",    function() wm.moveTop() end)
+-- hs.hotkey.bind(hyper2, "down",  function() wm.moveBottom() end)
 
-hs.hotkey.bind(hyper2, "left",  function() wm.moveLeft() end)
-hs.hotkey.bind(hyper2, "right", function() wm.moveRight() end)
-hs.hotkey.bind(hyper2, "up",    function() wm.moveTop() end)
-hs.hotkey.bind(hyper2, "down",  function() wm.moveBottom() end)
+-- hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
+-- hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
+-- -- hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
+-- hs.hotkey.bind(hyper2, "p", function() wm.move_previous_screen() end)
 
-hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
-hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
-hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
-hs.hotkey.bind(hyper2, "p", function() wm.move_previous_screen() end)
+-- hs.hotkey.bind(hyper2, "1", function() wm.moveWindowToPosition(wm.screenPositions.topLeft) end)
+-- hs.hotkey.bind(hyper2, "2", function() wm.moveWindowToPosition(wm.screenPositions.topRight) end)
+-- hs.hotkey.bind(hyper2, "3", function() wm.moveWindowToPosition(wm.screenPositions.bottomLeft) end)
+-- hs.hotkey.bind(hyper2, "4", function() wm.moveWindowToPosition(wm.screenPositions.bottomRight) end)
+-- hs.hotkey.bind(hyper2, "5", function() wm.moveWindowToPosition(wm.screenPositions.center) end)
 
-hs.hotkey.bind(hyper2, "1", function() wm.moveWindowToPosition(wm.screenPositions.topLeft) end)
-hs.hotkey.bind(hyper2, "2", function() wm.moveWindowToPosition(wm.screenPositions.topRight) end)
-hs.hotkey.bind(hyper2, "3", function() wm.moveWindowToPosition(wm.screenPositions.bottomLeft) end)
-hs.hotkey.bind(hyper2, "4", function() wm.moveWindowToPosition(wm.screenPositions.bottomRight) end)
-hs.hotkey.bind(hyper2, "5", function() wm.moveWindowToPosition(wm.screenPositions.center) end)
+-- hs.hotkey.bind(hyper2, "=", function() wm.size_plus() end)
+-- hs.hotkey.bind(hyper2, "-", function() wm.size_minus() end)
 
-hs.hotkey.bind(hyper2, "=", function() wm.size_plus() end)
-hs.hotkey.bind(hyper2, "-", function() wm.size_minus() end)
-
--- Revert to the original state
-hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)
+-- -- Revert to the original state
+-- hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)
 -----------------------------------------------------------------------------
 
 --03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
