@@ -12,6 +12,7 @@
 -----------------------------------------------------------------------------
 local hyper = {'cmd', 'shift', 'ctrl'}
 local hyper2 = {'cmd', 'alt', 'ctrl'}
+local hyper3 = {'cmd', 'shift', 'alt', 'ctrl'}
 
 -- Make the alerts look nicer.
 hs.alert.defaultStyle.fillColor =  {white = 0.05, alpha = 0.75}
@@ -33,8 +34,6 @@ require('modules.auto_script')        -- autoclick, autokey
 require('modules.volume_control')     -- volume Control
 
 
-
-
 --테스트 TEST
 function hello ()
 	-- body
@@ -47,10 +46,6 @@ end
 -- 	hs.application.launchOrFocus("Google Chrome")
 -- end)
 
--- 문자 붙여넣기
--- hs.hotkey.bind(hyper, 'p', function() --keymap: Launch Chrome
--- 	hs.eventtap.keyStrokes("abcd") 
--- end)
 
 
 -----------------------------------------------------------------------------
@@ -165,9 +160,42 @@ local reloadHammerspoon = function()
   hs.reload()
 end
 
+function getExportedVar(varName)
+  -- bash 파일에서 환경변수를 읽어오는 명령어 생성
+  local cmd = string.format("source ~/dotfiles/.key.env.sh 2>/dev/null && echo $%s", varName)
+  
+  -- task 객체 생성
+  local task = hs.task.new("/bin/bash", nil, {"-l", "-c", cmd})
+  local value = ""
+  
+  -- 결과를 처리할 콜백 설정
+  task:setCallback(function(exitCode, stdOut, stdErr)
+      value = stdOut:gsub("\n$", "") -- 줄바꿈 제거
+  end)
+  
+  -- 작업 실행 및 완료 대기
+  task:start()
+  task:waitUntilExit()
+  
+  return value
+end
+
+
 hyperKey
   :bind('r'):toFunction("Reload Hammerspoon", reloadHammerspoon)
   :bind('l'):toFunction("Lock screen", hs.caffeinate.startScreensaver)
+  :bind('h'):toFunction("Open Hammerspoon docs", function() hs.execute("open https://www.hammerspoon.org/docs/") end)
+  :bind('i'):toFunction("Open Hammerspoon API", function() hs.execute("open https://www.hammerspoon.org/docs/") end)
+  :bind('a'):toFunction("Say Hello", function() hs.eventtap.keyStrokes(" 안녕하세요. ")  end)
+  :bind('p'):toFunction("AD_PASS", function() hs.eventtap.keyStrokes(getExportedVar("AD_PASS"))  end)
+
+-----------------------------------------------------------------------------
+
+  --03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
+hs.hotkey.bind(hyper2, "l", function()
+  os.execute("pmset displaysleepnow")
+  -- os.execute("pmset sleepnow")
+end)
 
 -----------------------------------------------------------------------------
 -- Window Management
@@ -188,7 +216,7 @@ hyperKey
 
 -- hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
 -- hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
--- -- hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
+-- hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
 -- hs.hotkey.bind(hyper2, "p", function() wm.move_previous_screen() end)
 
 -- hs.hotkey.bind(hyper2, "1", function() wm.moveWindowToPosition(wm.screenPositions.topLeft) end)
@@ -200,14 +228,9 @@ hyperKey
 -- hs.hotkey.bind(hyper2, "=", function() wm.size_plus() end)
 -- hs.hotkey.bind(hyper2, "-", function() wm.size_minus() end)
 
--- -- Revert to the original state
--- hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)
+-- hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)  -- Revert to the original state
 -----------------------------------------------------------------------------
 
---03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
-hs.hotkey.bind(hyper2, "l", function()
-  os.execute("pmset displaysleepnow")
-end)
 
 -- Start Macros
 hello()
