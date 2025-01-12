@@ -11,6 +11,8 @@
 -- Default 
 -----------------------------------------------------------------------------
 local hyper = {'cmd', 'shift', 'ctrl'}
+local hyper2 = {'cmd', 'alt', 'ctrl'}
+local hyper3 = {'cmd', 'shift', 'alt', 'ctrl'}
 
 -- Make the alerts look nicer.
 hs.alert.defaultStyle.fillColor =  {white = 0.05, alpha = 0.75}
@@ -32,8 +34,6 @@ require('modules.auto_script')        -- autoclick, autokey
 require('modules.volume_control')     -- volume Control
 
 
-
-
 --테스트 TEST
 function hello ()
 	-- body
@@ -46,10 +46,6 @@ end
 -- 	hs.application.launchOrFocus("Google Chrome")
 -- end)
 
--- 문자 붙여넣기
--- hs.hotkey.bind(hyper, 'p', function() --keymap: Launch Chrome
--- 	hs.eventtap.keyStrokes("abcd") 
--- end)
 
 
 -----------------------------------------------------------------------------
@@ -164,48 +160,112 @@ local reloadHammerspoon = function()
   hs.reload()
 end
 
+function getExportedVar(varName)
+  -- bash 파일에서 환경변수를 읽어오는 명령어 생성
+  local cmd = string.format("source ~/dotfiles/.key.env.sh 2>/dev/null && echo $%s", varName)
+  
+  -- task 객체 생성
+  local task = hs.task.new("/bin/bash", nil, {"-l", "-c", cmd})
+  local value = ""
+  
+  -- 결과를 처리할 콜백 설정
+  task:setCallback(function(exitCode, stdOut, stdErr)
+      value = stdOut:gsub("\n$", "") -- 줄바꿈 제거
+  end)
+  
+  -- 작업 실행 및 완료 대기
+  task:start()
+  task:waitUntilExit()
+  
+  return value
+end
+
+
 hyperKey
   :bind('r'):toFunction("Reload Hammerspoon", reloadHammerspoon)
   :bind('l'):toFunction("Lock screen", hs.caffeinate.startScreensaver)
+  :bind('h'):toFunction("Open Hammerspoon docs", function() hs.execute("open https://www.hammerspoon.org/docs/") end)
+  :bind('i'):toFunction("Open Hammerspoon API", function() hs.execute("open https://www.hammerspoon.org/docs/") end)
+  :bind('a'):toFunction("Say Hello", function() hs.eventtap.keyStrokes(" 안녕하세요. ")  end)
+  :bind('p'):toFunction("AD_PASS", function() hs.eventtap.keyStrokes(getExportedVar("AD_PASS"))  end)
+
+
+  -----------------------------------------------------------------------------
+-- properties 파일에서 특정 키의 값을 가져오는 함수
+function getPropertyValue(filePath, key)
+  local file, err = io.open(filePath, "r")
+  if not file then
+      hs.alert.show("파일을 열 수 없습니다: " .. filePath .. "\n오류: " .. err)
+      return nil
+  end
+
+  local value = nil
+  for line in file:lines() do
+      local k, v = line:match("^%s*([^=]+)%s*=%s*(.-)%s*$")
+      if k and v and k == key then
+          value = v:gsub('^"(.*)"$', '%1')  -- 쌍따옴표 제거
+          break
+      end
+  end
+
+  file:close()
+  if not value then
+      hs.alert.show("키를 찾을 수 없습니다: " .. key)
+  end
+  return value
+end
+
+hs.hotkey.bind(hyper2, 'e', function()
+  local filePath = "/Users/a1101066/dotfiles/.key.env.sh"
+  local key = "AD_PASS"
+  local value = getPropertyValue(filePath, key)
+  if value then
+      hs.eventtap.keyStrokes(value)
+  end
+end)
+-----------------------------------------------------------------------------
+
+  --03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
+hs.hotkey.bind(hyper2, "l", function()
+  os.execute("pmset displaysleepnow")
+  -- os.execute("pmset sleepnow")
+end)
 
 -----------------------------------------------------------------------------
 -- Window Management
 ---- require('modules.window_move')        -- windows control 창이동 컨트롤 // 미사용
 -----------------------------------------------------------------------------
-local hyper2 = {'cmd', 'alt', 'ctrl'}
-local wm = require('modules/window-management')
 
 
-hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
-hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
 
-hs.hotkey.bind(hyper2, "left",  function() wm.moveLeft() end)
-hs.hotkey.bind(hyper2, "right", function() wm.moveRight() end)
-hs.hotkey.bind(hyper2, "up",    function() wm.moveTop() end)
-hs.hotkey.bind(hyper2, "down",  function() wm.moveBottom() end)
+-- local wm = require('modules/window-management')
 
-hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
-hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
-hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
-hs.hotkey.bind(hyper2, "p", function() wm.move_previous_screen() end)
 
-hs.hotkey.bind(hyper2, "1", function() wm.moveWindowToPosition(wm.screenPositions.topLeft) end)
-hs.hotkey.bind(hyper2, "2", function() wm.moveWindowToPosition(wm.screenPositions.topRight) end)
-hs.hotkey.bind(hyper2, "3", function() wm.moveWindowToPosition(wm.screenPositions.bottomLeft) end)
-hs.hotkey.bind(hyper2, "4", function() wm.moveWindowToPosition(wm.screenPositions.bottomRight) end)
-hs.hotkey.bind(hyper2, "5", function() wm.moveWindowToPosition(wm.screenPositions.center) end)
+-- hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
+-- hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
 
-hs.hotkey.bind(hyper2, "=", function() wm.size_plus() end)
-hs.hotkey.bind(hyper2, "-", function() wm.size_minus() end)
+-- hs.hotkey.bind(hyper2, "left",  function() wm.moveLeft() end)
+-- hs.hotkey.bind(hyper2, "right", function() wm.moveRight() end)
+-- hs.hotkey.bind(hyper2, "up",    function() wm.moveTop() end)
+-- hs.hotkey.bind(hyper2, "down",  function() wm.moveBottom() end)
 
--- Revert to the original state
-hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)
+-- hs.hotkey.bind(hyper2, "]", function() hs.window.focusedWindow():moveOneScreenEast() end)
+-- hs.hotkey.bind(hyper2, "[", function() hs.window.focusedWindow():moveOneScreenWest() end)
+-- hs.hotkey.bind(hyper2, "n", function() wm.move_next_screen() end)
+-- hs.hotkey.bind(hyper2, "p", function() wm.move_previous_screen() end)
+
+-- hs.hotkey.bind(hyper2, "1", function() wm.moveWindowToPosition(wm.screenPositions.topLeft) end)
+-- hs.hotkey.bind(hyper2, "2", function() wm.moveWindowToPosition(wm.screenPositions.topRight) end)
+-- hs.hotkey.bind(hyper2, "3", function() wm.moveWindowToPosition(wm.screenPositions.bottomLeft) end)
+-- hs.hotkey.bind(hyper2, "4", function() wm.moveWindowToPosition(wm.screenPositions.bottomRight) end)
+-- hs.hotkey.bind(hyper2, "5", function() wm.moveWindowToPosition(wm.screenPositions.center) end)
+
+-- hs.hotkey.bind(hyper2, "=", function() wm.size_plus() end)
+-- hs.hotkey.bind(hyper2, "-", function() wm.size_minus() end)
+
+-- hs.hotkey.bind(hyper2, "0", function() wm.revertOriginal() end)  -- Revert to the original state
 -----------------------------------------------------------------------------
 
---03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
-hs.hotkey.bind(hyper2, "l", function()
-  os.execute("pmset displaysleepnow")
-end)
 
 -- Start Macros
 hello()
