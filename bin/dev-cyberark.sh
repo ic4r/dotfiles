@@ -60,6 +60,8 @@ getIPfromAlias() {
 }
 
 if [ $# -eq 0 ]; then
+  cat "$IP_LIST_FILE"
+	echo ""
 	echo "Usage: "
 	echo "$ dev slack"
 	echo "$ dev 10.40.50.60"
@@ -88,7 +90,19 @@ elif [[ $1 = 'root' ]]; then
 		echo "$2 -> $target_ip 로 접속합니다." 
     sshpass -p ${AD_PASS} ssh ${AD_ID}@${ACCOUNT_ADMIN}@$target_ip@${IP_GATE}
 	fi
+
+elif [[ $1 = 'sftp' ]]; then
+	if [[ $2 =~ ^[0-9]+ ]]; then
+		echo "sftp ${AD_ID}@${ACCOUNT_ADMIN}@$2@${IP_GATE}"
+		sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_ADMIN}@$2@${IP_GATE}
+	else 
+		target_ip=$(getIPfromAlias "$2")
+		echo "$2 -> $target_ip 로 접속합니다." 
+    sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_ADMIN}@$target_ip@${IP_GATE}
+	fi
+
 else 
+    echo "ssh $1"
     sshpass -p ${AD_PASS} ssh $1
 fi
 
