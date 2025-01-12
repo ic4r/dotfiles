@@ -189,40 +189,6 @@ hyperKey
   :bind('a'):toFunction("Say Hello", function() hs.eventtap.keyStrokes(" 안녕하세요. ")  end)
   :bind('p'):toFunction("AD_PASS", function() hs.eventtap.keyStrokes(getExportedVar("AD_PASS"))  end)
 
-
-  -----------------------------------------------------------------------------
--- properties 파일에서 특정 키의 값을 가져오는 함수
-function getPropertyValue(filePath, key)
-  local file, err = io.open(filePath, "r")
-  if not file then
-      hs.alert.show("파일을 열 수 없습니다: " .. filePath .. "\n오류: " .. err)
-      return nil
-  end
-
-  local value = nil
-  for line in file:lines() do
-      local k, v = line:match("^%s*([^=]+)%s*=%s*(.-)%s*$")
-      if k and v and k == key then
-          value = v:gsub('^"(.*)"$', '%1')  -- 쌍따옴표 제거
-          break
-      end
-  end
-
-  file:close()
-  if not value then
-      hs.alert.show("키를 찾을 수 없습니다: " .. key)
-  end
-  return value
-end
-
-hs.hotkey.bind(hyper2, 'e', function()
-  local filePath = "/Users/a1101066/dotfiles/.key.env.sh"
-  local key = "AD_PASS"
-  local value = getPropertyValue(filePath, key)
-  if value then
-      hs.eventtap.keyStrokes(value)
-  end
-end)
 -----------------------------------------------------------------------------
 
   --03. Lock the screen. This may also be possible with hs.caffeinate.lockScreen.
