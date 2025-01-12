@@ -235,11 +235,10 @@ end)
 -- Window Management
 ---- require('modules.window_move')        -- windows control 창이동 컨트롤 // 미사용
 -----------------------------------------------------------------------------
-
-
-
+--
+-- #### rectangle 로 대체 ####
+--
 -- local wm = require('modules/window-management')
-
 
 -- hs.hotkey.bind(hyper2, "m", function()	wm.windowMaximize(0) end)
 -- hs.hotkey.bind(hyper2, "f", function() wm.full_screen() end)
