@@ -88,17 +88,21 @@ elif [[ $1 = 'root' ]]; then
 	else 
 		target_ip=$(getIPfromAlias "$2")
 		echo "$2 -> $target_ip 로 접속합니다." 
+    echo "ssh ${AD_ID}@${ACCOUNT_ADMIN}@$target_ip@${IP_GATE}"
+
     sshpass -p ${AD_PASS} ssh ${AD_ID}@${ACCOUNT_ADMIN}@$target_ip@${IP_GATE}
 	fi
 
 elif [[ $1 = 'sftp' ]]; then
 	if [[ $2 =~ ^[0-9]+ ]]; then
-		echo "sftp ${AD_ID}@${ACCOUNT_ADMIN}@$2@${IP_GATE}"
-		sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_ADMIN}@$2@${IP_GATE}
+		echo "sftp ${AD_ID}@${ACCOUNT_DEV}@$2@${IP_GATE}"
+		sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_DEV}@$2@${IP_GATE}
 	else 
 		target_ip=$(getIPfromAlias "$2")
 		echo "$2 -> $target_ip 로 접속합니다." 
-    sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_ADMIN}@$target_ip@${IP_GATE}
+    echo "sftp ${AD_ID}@${ACCOUNT_DEV}@$target_ip@${IP_GATE}"
+
+    sshpass -p ${AD_PASS} sftp ${AD_ID}@${ACCOUNT_DEV}@$target_ip@${IP_GATE}
 	fi
 
 else 

@@ -199,3 +199,11 @@ eval "$(gh copilot alias -- zsh)"
 #  eval "$(ngrok completion)"
 #fi
 
+export PATH="$HOME/.deno/bin:$PATH"
+
+alias yy='yoyak summary -l ko '
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=("$HOME/.docker/completions" $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
