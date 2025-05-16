@@ -18,7 +18,7 @@ cp $HOME/.kube/config* $DOTFILES/.kube 2>/dev/null
 FOLDER=$(readlink -f .ssh)
 DESC="$(date '+%Y-%m-%d %H:%M') $HOST "
 
-echo ".ssh 폴더 백업: bw_create_securefolder $FOLDER [$DESC] $BW_FOLDER_ID $BW_SSH_ITEM"
+echo ".ssh 폴더 백업: bw_create_securefolder $FOLDER [$DESC] $BW_FOLDER_ID $BW_SSH_ITEM \n"
 
 # source ~/dotfiles/function_bitwarden.sh && bw_create_securefolder $FOLDER "$DESC" $BW_FOLDER_ID $BW_SSH_ITEM
 
